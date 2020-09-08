@@ -21,6 +21,8 @@ module.exports = {
     'comma-dangle': [2, 'never'],
     // 禁用文件末尾空行
     'eol-last': [2, 'always'],
+    // 导入文件需要扩展名
+    "import/extensions": [0],
     // 要求对象字面量属性名称使用引号,如果没有严格要求，允许对象属性名称使用引号 (当 as-needed 时生效)
     'quote-props': [2, 'as-needed', { keywords: false, unnecessary: false, numbers: false }],
     // 箭头函数在可以省略括号的地方强制不使用括号
