@@ -1,9 +1,13 @@
 module.exports = {
+  // vuetify-ie11兼容
   'transpileDependencies': [
     'vuetify'
   ],
+  // 修改公共资源为相对路径，避免gh-pages访问404
+  publicPath: './',
   // eslint-编译时语法检查
   lintOnSave: true,
+
   devServer: {
     // 浏览器是否自动打开
     open: true,
