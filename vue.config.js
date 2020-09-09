@@ -1,5 +1,5 @@
 module.exports = {
-  // vuetify-ie11兼容
+  // 转译 vuetify 包
   'transpileDependencies': [
     'vuetify'
   ],
