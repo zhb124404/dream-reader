@@ -6,11 +6,11 @@ module.exports = {
   // 修改公共资源为相对路径，避免gh-pages访问404
   publicPath: './',
   // eslint-编译时语法检查
-  lintOnSave: true,
+  lintOnSave: false,
 
   devServer: {
     // 浏览器是否自动打开
-    open: true,
+    open: false,
     // 配置跨域代理
     proxy: {
       '/api': {

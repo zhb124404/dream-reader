@@ -1,24 +1,17 @@
 # dream-reader
 
-## Project setup
+## 一个简单的在线阅读应用
+
+## 安装
 ```
 npm install
-```
-
-### Compiles and hot-reloads for development
-```
 npm start
 ```
+## 技术栈
+- [x] vue 基础框架
+- [x] vue-router 路由跳转
+- [x] vuetify 组件库
+- [x] vuex 状态管理
+  - [x] vuex-persistedstate 状态持久化（使用localStorage）
+  - [x] secure-ls localStorage加密
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

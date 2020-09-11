@@ -14,13 +14,15 @@ const routes = [
     path: '/setting',
     name: 'Setting',
     // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
+    // this generates a separate chunk (setting.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Setting.vue')
-  }, {
+    // 可以通过 /* webpackChunkName: "setting" */ 指定webpack打包时生成的文件名
+    component: () => import(/* webpackChunkName: "setting" */ '../views/Setting.vue')
+  },
+  {
     path: '/search',
     name: 'Search',
-    component: () => import('../views/Search.vue')
+    component: () => import(/* webpackChunkName: "search" */ '../views/Search.vue')
   }
 ]
 

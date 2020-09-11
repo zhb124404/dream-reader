@@ -28,6 +28,11 @@ module.exports = {
     // 箭头函数在可以省略括号的地方强制不使用括号
     'arrow-parens': [0, 'as-needed'],
     // 行的最大长度
-    'max-len': [0]
+    'max-len': [0],
+    // 禁用自增自减运算符
+    'no-plusplus': [0],
+    // Object.assign使用规则
+    'prefer-object-spread': [0],
+    'no-param-reassign':[0]
   }
 }

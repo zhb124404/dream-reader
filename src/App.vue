@@ -61,6 +61,9 @@ export default {
     drawer: false,
     miniDrawer: false,
     navValue: 'bookshelf'
-  })
+  }),
+  mounted() {
+    this.$vuetify.theme.dark = this.$store.getters.getState('theme.useDarktheme')
+  }
 }
 </script>

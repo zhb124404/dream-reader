@@ -1,12 +1,22 @@
 <template>
-  <div class="about">
-    <v-switch v-model="$vuetify.theme.dark" primary label="启用暗黑主题"></v-switch>
+  <div class="setting">
+    <v-switch v-model="useDarkTheme" primary label="启用暗黑主题"></v-switch>
   </div>
 </template>
 <script>
 export default {
-  data: () => ({
-    miniDrawer: false
-  })
+  data: () => ({}),
+  computed: {
+    useDarkTheme: {
+      get() {
+        return this.$store.getters.getState('theme.useDarktheme')
+      },
+      set(value) {
+        this.$vuetify.theme.dark = value
+        this.$store.commit('setTheme', ['useDarktheme', value])
+      }
+    }
+  },
+  methods: {}
 }
 </script>
