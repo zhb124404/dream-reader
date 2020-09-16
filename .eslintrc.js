@@ -4,8 +4,7 @@ module.exports = {
     node: true
   },
   extends: [
-    'plugin:vue/essential',
-    '@vue/airbnb'
+    'plugin:vue/essential'
   ],
   parserOptions: {
     parser: 'babel-eslint'
@@ -33,6 +32,6 @@ module.exports = {
     'no-plusplus': [0],
     // Object.assign使用规则
     'prefer-object-spread': [0],
-    'no-param-reassign':[0]
+    'no-param-reassign': [0]
   }
 }
