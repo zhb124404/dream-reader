@@ -14,9 +14,10 @@ module.exports = {
     // 配置跨域代理
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:3000',
+        target: 'http://api.zhuishushenqi.com',
         ws: true,
-        changeOrigin: true
+        changeOrigin: true,
+        pathRewrite: { '^/api': '' }
       }
     }
   }
