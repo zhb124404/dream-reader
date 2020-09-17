@@ -15,9 +15,9 @@ module.exports = {
     proxy: {
       '/api': {
         target: 'http://api.zhuishushenqi.com',
+        pathRewrite: { '^/api': '' },
         ws: true,
-        changeOrigin: true,
-        pathRewrite: { '^/api': '' }
+        changeOrigin: true
       }
     }
   }

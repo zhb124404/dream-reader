@@ -49,6 +49,15 @@
 
     <v-main>
       <router-view></router-view>
+      <!-- 全局消息条 -->
+      <v-snackbar v-model="showSnackbar" :color="$store.state.snackbar.type" :timeout="$store.state.snackbar.timeout" bottom>
+        {{$store.state.snackbar.text}}
+        <template v-slot:action="{ attrs }">
+          <v-btn text v-bind="attrs" @click="showSnackbar = false">
+            关闭
+          </v-btn>
+        </template>
+      </v-snackbar>
     </v-main>
 
   </v-app>
@@ -57,13 +66,25 @@
 <script>
 export default {
   name: 'App',
-  data: () => ({
-    drawer: false,
-    miniDrawer: false,
-    navValue: 'bookshelf'
-  }),
+  data() {
+    return {
+      drawer: false,
+      miniDrawer: false,
+      navValue: 'bookshelf'
+    }
+  },
+  computed: {
+    showSnackbar: {
+      get() {
+        return this.$store.state.snackbar.show
+      },
+      set(value) {
+        this.$store.commit('showMsg', { show: value })
+      }
+    }
+  },
   mounted() {
-    this.$vuetify.theme.dark = this.$store.getters.getState('theme.useDarktheme')
+    this.$vuetify.theme.dark = this.$store.state.theme.useDarktheme
   }
 }
 </script>

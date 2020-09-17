@@ -12,6 +12,8 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    // 使用单引号
+    'quotes': [2, 'single'],
     // 禁用行尾分号
     'semi': [2, 'never'],
     // 强制使用===
@@ -32,6 +34,8 @@ module.exports = {
     'no-plusplus': [0],
     // Object.assign使用规则
     'prefer-object-spread': [0],
-    'no-param-reassign': [0]
+    'no-param-reassign': [0],
+    // 注释后空格
+    'spaced-comment': [2, 'always']
   }
 }

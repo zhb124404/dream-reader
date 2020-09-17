@@ -10,21 +10,38 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    // 主题
     theme: {
-      useDarktheme: true
+      useDarktheme: false
+    },
+    // 全局消息条
+    snackbar: {
+      show: false, // 展示消息
+      type: 'info', // info，error，error
+      text: '', // 提示文字
+      timeout: 1400 // 消失时间
     }
   },
   getters: {
     // 不直接通过state获取嵌套state对象属性，而应使用Getter
     // 使用柯里化函数传递额外参数 state => key => {}
     // 通用Getter this.$store.getters.getState(key) key as a,a.b,...
-    getState: state => key => getNestedKey(state, key.split('.'))
+    // getState: state => key => getNestedKey(state, key.split('.')),
+    // getSnackbar: state => ({ ...state.snackbar })
   },
   mutations: {
-    setTheme: (state, [key, value]) => Vue.set(state.theme, key, value)
+    // 保持state响应式
+    // setTheme: (state, [key, value]) => Vue.set(state.theme, key, value) // 1.使用 Vue.set(obj,newKey,newValue)
+    setTheme: (state, payload) => state.theme = { ...state.theme, ...payload }, // 2.以新对象替换老对象
+    showMsg: (state, config) => state.snackbar = {
+      show: true,
+      type: 'info',
+      text: '',
+      timeout: 1400,
+      ...config
+    }
   },
-  actions: {
-  },
+  actions: {},
   plugins: [createPersistedState({
     key: 'dreamReder-UserData',
     storage: {

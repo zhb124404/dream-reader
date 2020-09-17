@@ -9,11 +9,11 @@ export default {
   computed: {
     useDarkTheme: {
       get() {
-        return this.$store.getters.getState('theme.useDarktheme')
+        return this.$store.state.theme.useDarktheme
       },
       set(value) {
         this.$vuetify.theme.dark = value
-        this.$store.commit('setTheme', ['useDarktheme', value])
+        this.$store.commit('setTheme', { useDarktheme: value })
       }
     }
   },
