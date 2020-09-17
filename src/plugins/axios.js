@@ -9,7 +9,7 @@ import axios from 'axios'
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 let config = {
-  baseURL: process.env.NODE_ENV === 'production' ? 'http://api.zhuishushenqi.com' : '/api',
+  baseURL: process.env.NODE_ENV === 'production' ? 'https://cors-anywhere.herokuapp.com/http://api.zhuishushenqi.com' : '/api',
   // timeout: 60 * 1000, // Timeout
   withCredentials: false // Check cross-site Access-Control
 }
