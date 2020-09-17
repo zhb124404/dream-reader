@@ -14,7 +14,7 @@ module.exports = {
     // 配置跨域代理
     proxy: {
       '/api': {
-        target: 'https://api.zhuishushenqi.com',
+        target: 'http://api.zhuishushenqi.com',
         pathRewrite: { '^/api': '' },
         ws: true,
         changeOrigin: true
