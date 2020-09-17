@@ -44,14 +44,14 @@ export default {
           query: this.keyword
         }
         try {
-          let result = await this.$axios.get('/api/book/fuzzy-search', { params })
+          let result = await this.$axios.get('/book/fuzzy-search', { params })
           console.log(result.data.books)
           let { ok: status, books, total } = result.data
           if (status) {
             this.books = books
           }
         } catch (e) {
-          this.$store.commit('showMsg', { text: e.message })
+          this.$store.commit('showMsg', { text: e.message, type: 'error' })
         }
       } else {
         this.$store.commit('showMsg', { text: '搜索词不能为空！' })
