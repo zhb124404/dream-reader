@@ -5,7 +5,9 @@
 </template>
 <script>
 export default {
-  data: () => ({}),
+  data() {
+    return {}
+  },
   computed: {
     useDarkTheme: {
       get() {

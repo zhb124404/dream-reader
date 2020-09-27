@@ -12,9 +12,10 @@ module.exports = {
     // 浏览器是否自动打开
     open: false,
     // 配置跨域代理
+    host: '127.0.0.1',
     proxy: {
       '/api': {
-        target: 'http://api.zhuishushenqi.com',
+        target: 'https://booktxt.dreamoon.workers.dev',
         pathRewrite: { '^/api': '' },
         ws: true,
         changeOrigin: true

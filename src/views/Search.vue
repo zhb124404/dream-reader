@@ -1,61 +1,68 @@
 <template>
-  <div class="search">
-    <div class="ma-4">
-      <v-text-field v-model="keyword" @keyup.enter="search()" autofocus solo append-icon="mdi-magnify" label="Search"></v-text-field>
-      <v-hover v-for="book in books" :key="book._id" class="mb-4">
-        <!-- 悬停卡片 悬停不支持移动端 -->
-        <template v-slot="{ hover }">
-          <v-card :elevation="hover ? 4 : 2" class="pa-4">
-            <!-- <v-card-title>{{book.title}}</v-card-title>
-              <v-card-subtitle>{{book.shortIntro.slice(0,48)}}...</v-card-subtitle> -->
-
-            <v-avatar height="120" width="88" left tile>
-              <v-img style="border-radius:4px" :src="decodeURIComponent(book.cover).replace('/agent/','')"></v-img>
-            </v-avatar>
-          </v-card>
-        </template>
-      </v-hover>
-
-      <v-card>
-        <div>
-          <v-card-title class="headline">hhhh</v-card-title>
-          <v-card-subtitle>36365356363563</v-card-subtitle>
-        </div>
-
-        <v-avatar class="ma-3" size="125" tile>
-          <v-img src="https://cdn.vuetifyjs.com/images/cards/foster.jpg"></v-img>
-        </v-avatar>
+  <div class="search ma-4">
+    <v-text-field v-model="keyword" @keyup.enter="search()" autofocus solo append-icon="mdi-magnify" label="Search"></v-text-field>
+    <v-hover v-for="(book,index) in books" :key="'book-'+index" v-slot="{ hover }">
+      <v-card @click="goToChapters(book.name,book.bookUrl)" :elevation="hover ? 4 : 2" class="mb-4">
+        <v-container class="pa-4">
+          <v-row>
+            <!-- 封面 -->
+            <v-col cols="4" class="py-0">
+              <v-avatar height="120" width="88" tile>
+                <v-img :src="decodeURIComponent(book.coverUrl).replace('/agent/','')" style="border-radius:4px"></v-img>
+              </v-avatar>
+            </v-col>
+            <v-col cols="8" class="py-0">
+              <v-row>
+                <v-col cols="12" class="pa-0 pr-2">
+                  <div class="text-subtitle-1 text-truncate">{{book.name}}</div>
+                  <div class="text-subtitle-2 text--secondary text-truncate">——{{book.author}}</div>
+                  <div class="text-body-2 pt-1" v-line-clamp="3">{{book.intro}}</div>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-container>
       </v-card>
-
-    </div>
+    </v-hover>
   </div>
 </template>
 <script>
 export default {
-  data: () => ({
-    keyword: '',
-    books: [],
-    count: 7
-  }),
+  data() {
+    return {
+      keyword: '',
+      books: [],
+      count: 7
+    }
+  },
   methods: {
     async search() {
       if (this.keyword) {
         let params = {
-          query: this.keyword
+          q: this.keyword
         }
         try {
-          let result = await this.$axios.get('/book/fuzzy-search', { params })
+          let result = await this.$axios.get('/search', { params })
           console.log(result.data.books)
-          let { ok: status, books, total } = result.data
-          if (status) {
+          let { code, books } = result.data
+          if (code === '0000') {
             this.books = books
+            this.$route.params.key = 'this.keyword'
+          } else {
+            this.$store.commit('showMsg', { text: '搜索失败！', type: 'warning' })
           }
         } catch (e) {
           this.$store.commit('showMsg', { text: e.message, type: 'error' })
         }
       } else {
-        this.$store.commit('showMsg', { text: '搜索词不能为空！' })
+        this.$store.commit('showMsg', { text: '搜索词不能为空！', type: 'warning' })
       }
+    },
+    goToChapters(name, id) {
+      this.$router.push({
+        name: 'Chapters',
+        query: { name, id }
+      })
     }
   },
   mounted() {}

@@ -12,12 +12,13 @@ export default new Vuex.Store({
   state: {
     // 主题
     theme: {
-      useDarktheme: false
+      useDarktheme: false,
+      showNav:true
     },
     // 全局消息条
     snackbar: {
       show: false, // 展示消息
-      type: 'info', // info，error，error
+      type: 'info', // success,info,warning，error
       text: '', // 提示文字
       timeout: 1400 // 消失时间
     }
@@ -33,12 +34,19 @@ export default new Vuex.Store({
     // 保持state响应式
     // setTheme: (state, [key, value]) => Vue.set(state.theme, key, value) // 1.使用 Vue.set(obj,newKey,newValue)
     setTheme: (state, payload) => state.theme = { ...state.theme, ...payload }, // 2.以新对象替换老对象
-    showMsg: (state, config) => state.snackbar = {
-      show: true,
-      type: 'info',
-      text: '',
-      timeout: 1400,
-      ...config
+    showMsg: (state, config) => {
+      if (config.show === false) {
+        state.snackbar.show = false
+      }
+      else {
+        state.snackbar = {
+          show: true,
+          type: 'info',
+          text: '',
+          timeout: 1400,
+          ...config
+        }
+      }
     }
   },
   actions: {},
