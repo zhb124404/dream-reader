@@ -15,7 +15,7 @@ module.exports = {
     host: '127.0.0.1',
     proxy: {
       '/api': {
-        target: 'https://booktxt.dreamoon.workers.dev',
+        target: 'https://9txs.dreamoon.workers.dev',
         pathRewrite: { '^/api': '' },
         ws: true,
         changeOrigin: true

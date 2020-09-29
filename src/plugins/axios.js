@@ -9,7 +9,7 @@ import axios from 'axios'
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 let config = {
-  baseURL: process.env.NODE_ENV === 'production' ? 'https://booktxt.dreamoon.workers.dev' : '/api',
+  baseURL: process.env.NODE_ENV === 'production' ? 'https://9txs.dreamoon.workers.dev' : '/api',
   // timeout: 60 * 1000, // Timeout
   withCredentials: false // Check cross-site Access-Control
 }
