@@ -174,7 +174,7 @@ export default {
 
 // 目录列表滚动条
 ::-webkit-scrollbar {
-  max-width: 12px;
+  width: 12px;
 }
 ::-webkit-scrollbar-thumb {
   background: #BDBDBD;
