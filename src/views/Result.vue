@@ -5,17 +5,27 @@
         <v-container class="pa-4">
           <v-row>
             <!-- 封面 -->
-            <v-col cols="4" class="py-0">
+            <v-col align-self="center" cols="4" class="py-0">
               <v-avatar height="120" width="88" tile>
-                <v-img :src="decodeURIComponent(book.coverUrl)" style="border-radius:4px"></v-img>
+                <v-img :src="book.coverUrl" style="border-radius:4px">
+                  <template v-slot:placeholder>
+                    <PuSkeleton height="120px" width="88px"></PuSkeleton>
+                  </template>
+                </v-img>
               </v-avatar>
             </v-col>
             <v-col cols="8" class="py-0">
               <v-row>
                 <v-col cols="12" class="pa-0 pr-2">
-                  <div class="text-subtitle-1 text-truncate">{{book.name}}</div>
-                  <div class="text-subtitle-2 text--secondary text-truncate">——{{book.author}}</div>
-                  <div class="text-body-2 pt-1" v-line-clamp="3">{{book.intro}}</div>
+                  <div class="text-subtitle-1 text-truncate pb-1">
+                    <PuSkeleton width="120px">{{book.name}}</PuSkeleton>
+                  </div>
+                  <div class="text-subtitle-2 text--secondary text-truncate pb-1">
+                    <PuSkeleton width="80px">{{book.author}}</PuSkeleton>
+                  </div>
+                  <div class="text-body-2" v-line-clamp="3">
+                    <PuSkeleton :count="3">{{book.intro}}</PuSkeleton>
+                  </div>
                 </v-col>
               </v-row>
             </v-col>
@@ -25,30 +35,40 @@
     </v-hover>
     <!-- 小说详情 -->
     <v-dialog v-model="showBookInfo" max-width="400">
-      <v-card :loading="bookInfoLoading">
+      <v-card>
         <v-container class="pa-4">
           <v-row>
             <!-- 封面 -->
             <v-col align-self="center" cols="4" class="py-0">
-              <v-avatar height="120" width="88" tile>
-                <v-img :src="bookInfo.coverUrl" style="border-radius:4px"></v-img>
+              <v-avatar v-if="showBookInfo" height="120" width="88" tile>
+                <v-img :src="bookInfo.coverUrl" style="border-radius:4px">
+                  <template v-slot:placeholder>
+                    <PuSkeleton height="120px" width="88px"></PuSkeleton>
+                  </template>
+                </v-img>
               </v-avatar>
             </v-col>
             <v-col cols="8" class="py-0">
-              <v-row v-if="!bookInfoLoading">
+              <v-row>
                 <v-col cols="12" class="pa-0 pr-2">
-                  <div class="text-subtitle-1 text-truncate mb-1">{{bookInfo.name}}</div>
-                  <div class="text-subtitle-2 text--secondary text-truncate">
-                    <v-icon size="20px">mdi-face</v-icon><span style="padding:12px 0">{{bookInfo.author}}</span>
+                  <div class="text-subtitle-1 text-truncate pb-1">
+                    <PuSkeleton width="120px">{{bookInfo.name}}</PuSkeleton>
                   </div>
                   <div class="text-subtitle-2 text--secondary text-truncate">
-                    <v-icon size="20px">mdi-tag</v-icon>{{bookInfo.type}}
+                    <PuSkeleton v-if="bookInfoLoading" width="80px"></PuSkeleton>
+                    <v-icon v-else size="20px">mdi-face</v-icon>{{bookInfo.author}}
                   </div>
                   <div class="text-subtitle-2 text--secondary text-truncate">
-                    <v-icon size="20px">mdi-ticket-confirmation</v-icon>{{bookInfo.lastChapter}}
+                    <PuSkeleton v-if="bookInfoLoading" width="72px"></PuSkeleton>
+                    <v-icon v-else size="20px">mdi-tag</v-icon>{{bookInfo.type}}
                   </div>
                   <div class="text-subtitle-2 text--secondary text-truncate">
-                    <v-icon size="20px">mdi-clock-time-nine</v-icon>{{bookInfo.lastUpdate}}
+                    <PuSkeleton v-if="bookInfoLoading" width="200px"></PuSkeleton>
+                    <v-icon v-else size="20px">mdi-ticket-confirmation</v-icon>{{bookInfo.lastChapter}}
+                  </div>
+                  <div class="text-subtitle-2 text--secondary text-truncate">
+                    <PuSkeleton v-if="bookInfoLoading" width="200px"></PuSkeleton>
+                    <v-icon v-else size="20px">mdi-clock-time-nine</v-icon>{{bookInfo.lastUpdate}}
                   </div>
                 </v-col>
               </v-row>
@@ -57,33 +77,32 @@
           <v-divider class="mt-4"></v-divider>
           <v-row>
             <v-card-text>
-              <div v-line-clamp="8" style="text-indent:2em;">{{bookInfo.intro}}</div>
+              <div v-line-clamp="8" style="text-indent:2em;">
+                <PuSkeleton :count="5">
+                  {{bookInfo.intro}}
+                </PuSkeleton>
+              </div>
             </v-card-text>
           </v-row>
-          <v-card-actions v-if="!bookInfoLoading">
-            <v-btn color="green darken-1" text @click="getChapters(bookInfo.name,bookInfo.chaptersUrl)">
+          <v-card-actions>
+            <v-btn color="green darken-1" :disabled="bookInfoLoading" text @click="getContent(bookInfo.chaptersUrl)">
               开始阅读
             </v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="green darken-1" text @click="showBookInfo = false">
+            <v-btn color="green darken-1" :disabled="bookInfoLoading" text @click="showBookInfo = false">
               加入书架
             </v-btn>
           </v-card-actions>
-
         </v-container>
       </v-card>
     </v-dialog>
-    <!-- 加载中 -->
-    <v-overlay :value="loading" :opacity="0">
-      <v-progress-circular color="green darken-1" indeterminate size="48"></v-progress-circular>
-    </v-overlay>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
-      books: [],
+      books: 5,
       bookInfo: {},
       loading: false,
       bookInfoLoading: false,
@@ -113,7 +132,7 @@ export default {
       this.showBookInfo = true
       try {
         let params = { id }
-        this.bookInfoLoading = 'green darken-1'
+        this.bookInfoLoading = true
         let result = await this.$axios.get('/getBook', { params })
         this.bookInfoLoading = false
         let { code, book } = result.data
@@ -132,6 +151,13 @@ export default {
       this.$router.push({
         name: 'Chapters',
         query: { name, id }
+      })
+    },
+    getContent(id) {
+      this.showBookInfo = false
+      this.$router.push({
+        name: 'Content',
+        query: { id }
       })
     }
   },

@@ -4,8 +4,10 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
+import Skeleton from 'vue-loading-skeleton'
 import lineClamp from 'vue-line-clamp'
 
+Vue.use(Skeleton)
 Vue.use(lineClamp)
 Vue.config.productionTip = false
 new Vue({

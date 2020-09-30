@@ -1,25 +1,26 @@
 <template>
   <div class="search ma-4">
+
     <v-list rounded>
       <v-subheader>{{$route.query.name}}</v-subheader>
-      <v-list-item @click="goToChapter(chapter.chapterName,chapter.chapterUrl)" v-for="(chapter, index) in chapters" :key="'chapter'+index">
+      <v-list-item @click="goToChapter(chapter.chapterName,chapter.chapterUrl,chapters)" v-for="(chapter, index) in chapters"
+        :key="'chapter'+index">
         <v-list-item-content>
-          <v-list-item-title>{{chapter.chapterName}}</v-list-item-title>
+          <v-list-item-title>
+            <PuSkeleton>{{chapter.chapterName}}</PuSkeleton>
+          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-list>
-    <!-- 加载中 -->
-    <v-overlay :value="loading" :opacity="0">
-      <v-progress-circular color="green darken-1" indeterminate size="48"></v-progress-circular>
-    </v-overlay>
+
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
-      loading:false,
-      chapters: []
+      loading: false,
+      chapters: 10
     }
   },
   methods: {
@@ -42,10 +43,11 @@ export default {
         this.$store.commit('showMsg', { text: e.message, type: 'error' })
       }
     },
-    goToChapter(name, id) {
+    goToChapter(name, id, chapters) {
       this.$router.push({
         name: 'Content',
-        query: { name, id }
+        query: { name, id },
+        params: { chapters }
       })
     }
   },
