@@ -31,7 +31,7 @@
       </v-btn>
     </v-speed-dial>
 
-    <v-navigation-drawer v-model="showCatalog" width="80%" :height="navHeight" absolute temporary>
+    <v-navigation-drawer v-model="showCatalog" width="80%" :height="navHeight" absolute temporary class="light">
       <!-- <v-list rounded>
         <v-subheader>{{selected}}</v-subheader>
         <v-list-item-group v-model="selected" active-class="green--text">
@@ -172,10 +172,13 @@ export default {
   bottom: 4rem;
 }
 
-.control-panel {
-  height: 400px;
-  background: red;
-  position: absolute;
-  z-index: 10;
+// 目录列表滚动条
+::-webkit-scrollbar {
+  max-width: 12px;
+}
+::-webkit-scrollbar-thumb {
+  background: #BDBDBD;
+  height: 40px;
+  border-radius: 2px;
 }
 </style>
