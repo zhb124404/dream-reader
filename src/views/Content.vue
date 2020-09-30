@@ -31,7 +31,7 @@
       </v-btn>
     </v-speed-dial>
 
-    <v-navigation-drawer v-model="showCatalog" width="80%" :height="navHeight" absolute temporary class="light">
+    <v-navigation-drawer v-model="showCatalog" width="80%" :height="navHeight" absolute temporary>
       <!-- <v-list rounded>
         <v-subheader>{{selected}}</v-subheader>
         <v-list-item-group v-model="selected" active-class="green--text">
