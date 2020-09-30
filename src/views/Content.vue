@@ -13,15 +13,15 @@
         </v-col>
       </v-row>
     </v-card>
-    <v-speed-dial v-model="fab" bottom right direction="top" :open-on-hover="true" transition="slide-y-reverse-transition">
+    <v-speed-dial v-model="fab" bottom right direction="top" :open-on-hover="false" transition="slide-y-reverse-transition">
       <template v-slot:activator>
         <v-btn v-model="fab" color="blue darken-2" dark fab>
           <v-icon v-if="fab">mdi-close</v-icon>
-          <v-icon v-else>mdi-account-circle</v-icon>
+          <v-icon v-else>mdi-plus</v-icon>
         </v-btn>
       </template>
-      目录<v-btn @click="showCatalog = true" fab dark small color="green">
-        <v-icon>mdi-pencil</v-icon>
+      <v-btn @click="showCatalog = true" fab dark small color="green">
+        <v-icon>mdi-format-list-bulleted</v-icon>
       </v-btn>
       <v-btn fab dark small color="indigo">
         <v-icon>mdi-plus</v-icon>
@@ -32,7 +32,7 @@
     </v-speed-dial>
 
     <v-navigation-drawer v-model="showCatalog" width="80%" :height="navHeight" absolute temporary>
-      <v-list rounded>
+      <!-- <v-list rounded>
         <v-subheader>{{selected}}</v-subheader>
         <v-list-item-group v-model="selected" active-class="green--text">
           <template v-for="(chapter, index) in chapters">
@@ -43,7 +43,17 @@
             </v-list-item>
           </template>
         </v-list-item-group>
-      </v-list>
+      </v-list> -->
+      <v-virtual-scroll :items="chapters" :height="navHeight" bench="10" item-height="48">
+        <template v-slot="{ item:chapter,index}">
+          <v-list-item @click="showCatalog=false;selected=index;getChapter(chapter.chapterUrl,chapter.chapterName)" :key="'chapter'+index">
+            <v-list-item-content>
+              <v-list-item-title>{{chapter.chapterName}}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-divider></v-divider>
+        </template>
+      </v-virtual-scroll>
     </v-navigation-drawer>
   </v-sheet>
 </template>
@@ -82,6 +92,15 @@ export default {
           this.selected++
         } else {
           this.$store.commit('showMsg', { text: '没有下一章啦！', type: 'warning' })
+        }
+      } else if (d === 'Right') {
+        if (this.selected > 0) {
+          let id = this.chapters[this.selected - 1].chapterUrl
+          let name = this.chapters[this.selected - 1].chapterName
+          await this.getChapter(id, name)
+          this.selected--
+        } else {
+          this.$store.commit('showMsg', { text: '已是第一章！', type: 'warning' })
         }
       }
     },
@@ -123,8 +142,6 @@ export default {
     }
   },
   async mounted() {
-    console.log(document.documentElement.clientHeight)
-    console.log(this.$vuetify.application)
     await this.getChapters(this.$route.query.id)
     await this.getChapter(this.chapters[0].chapterUrl, this.chapters[0].chapterName)
   }
