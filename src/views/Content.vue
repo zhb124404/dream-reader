@@ -23,16 +23,16 @@
       <v-btn @click="showCatalog = true" fab dark small color="green">
         <v-icon>mdi-format-list-bulleted</v-icon>
       </v-btn>
-      <v-btn fab dark small color="indigo">
-        <v-icon>mdi-plus</v-icon>
+      <v-btn @click="$store.commit('setTheme', { showNav: true });$router.push({name:'Home'})" fab dark small color="indigo">
+        <v-icon>mdi-home</v-icon>
       </v-btn>
-      <v-btn fab dark small color="red">
-        <v-icon>mdi-delete</v-icon>
+      <v-btn @click="$store.commit('setTheme', { showNav: true });$router.back()" fab dark small color="red">
+        <v-icon>mdi-keyboard-backspace</v-icon>
       </v-btn>
     </v-speed-dial>
 
     <v-navigation-drawer v-model="showCatalog" width="80%" fixed temporary>
-      <v-virtual-scroll :items="chapters"  bench="10" item-height="48">
+      <v-virtual-scroll :items="chapters" bench="10" item-height="48">
         <template v-slot="{ item:chapter,index}">
           <v-list-item @click="showCatalog=false;selected=index;getChapter(chapter.chapterUrl,chapter.chapterName)" :key="'chapter'+index">
             <v-list-item-content>
@@ -126,6 +126,7 @@ export default {
     }
   },
   async mounted() {
+    this.$store.commit('setTheme', { showNav: false })
     await this.getChapters(this.$route.query.id)
     await this.getChapter(this.chapters[0].chapterUrl, this.chapters[0].chapterName)
   }
@@ -161,7 +162,7 @@ export default {
   width: 12px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #BDBDBD;
+  background: #bdbdbd;
   height: 40px;
   border-radius: 2px;
 }

@@ -1,5 +1,8 @@
 <template>
   <div class="search ma-4">
+    <div class="mb-4">
+      <v-icon @click="$router.back()">mdi-reply-all</v-icon>
+    </div>
     <v-hover v-for="(book,index) in books" :key="'book-'+index" v-slot="{ hover }">
       <v-card @click="getBookInfo(book.bookUrl)" :elevation="hover ? 4 : 2" class="mb-4">
         <v-container class="pa-4">
@@ -119,6 +122,9 @@ export default {
         let { code, books } = result.data
         if (code === '0000') {
           this.books = books
+          if( this.books.length===0){
+            this.$store.commit('showMsg', { text: '未搜索到相关小说！', type: 'info' })
+          }
         } else {
           this.$store.commit('showMsg', { text: '搜索失败！', type: 'warning' })
         }

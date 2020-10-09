@@ -32,7 +32,7 @@
       </v-btn>
     </v-app-bar> -->
 
-    <v-bottom-navigation v-model="navValue" :input-value="showNav" grow shift app>
+    <v-bottom-navigation v-if="showNav" v-model="navValue" grow shift app>
       <v-btn height="100%" value="search" to="/search">
         <span>搜索</span>
         <v-icon>mdi-cloud-search</v-icon>
@@ -70,11 +70,13 @@ export default {
     return {
       drawer: false,
       miniDrawer: false,
-      showNav:this.$store.state.theme.showNav,
       navValue: 'bookshelf'
     }
   },
   computed: {
+    showNav() {
+      return this.$store.state.theme.showNav
+    },
     showSnackbar: {
       get() {
         return this.$store.state.snackbar.show
