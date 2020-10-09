@@ -1,5 +1,5 @@
 <template>
-  <v-sheet v-resize="onResize" height="100%">
+  <v-sheet height="100%">
     <v-card :loading="loading" :class="readTheme" v-touch="{
       left: () => swipe('Left'),
       right: () => swipe('Right'),
@@ -31,20 +31,8 @@
       </v-btn>
     </v-speed-dial>
 
-    <v-navigation-drawer v-model="showCatalog" width="80%" :height="navHeight" absolute temporary>
-      <!-- <v-list rounded>
-        <v-subheader>{{selected}}</v-subheader>
-        <v-list-item-group v-model="selected" active-class="green--text">
-          <template v-for="(chapter, index) in chapters">
-            <v-list-item @click="showCatalog=false;getChapter(chapter.chapterUrl,chapter.chapterName)" :key="'chapter'+index">
-              <v-list-item-content>
-                <v-list-item-title>{{chapter.chapterName}}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </template>
-        </v-list-item-group>
-      </v-list> -->
-      <v-virtual-scroll :items="chapters" :height="navHeight" bench="10" item-height="48">
+    <v-navigation-drawer v-model="showCatalog" width="80%" fixed temporary>
+      <v-virtual-scroll :items="chapters"  bench="10" item-height="48">
         <template v-slot="{ item:chapter,index}">
           <v-list-item @click="showCatalog=false;selected=index;getChapter(chapter.chapterUrl,chapter.chapterName)" :key="'chapter'+index">
             <v-list-item-content>
@@ -67,8 +55,7 @@ export default {
       fab: false,
       showCatalog: false,
       chapters: [],
-      selected: 0,
-      navHeight: document.documentElement.clientHeight
+      selected: 0
     }
   },
   computed: {
@@ -80,9 +67,6 @@ export default {
     }
   },
   methods: {
-    onResize() {
-      this.navHeight = document.documentElement.clientHeight
-    },
     async swipe(d) {
       if (d === 'Left') {
         if (this.selected < this.chapters.length - 1) {
