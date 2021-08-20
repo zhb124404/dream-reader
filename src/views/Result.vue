@@ -9,7 +9,7 @@
           <v-row>
             <!-- 封面 -->
             <v-col align-self="center" cols="4" class="py-0">
-              <v-avatar height="120" width="88" tile>
+              <v-avatar height="112" width="80" tile>
                 <v-img :src="book.coverUrl" style="border-radius:4px">
                   <template v-slot:placeholder>
                     <PuSkeleton height="120px" width="88px"></PuSkeleton>
@@ -43,7 +43,7 @@
           <v-row>
             <!-- 封面 -->
             <v-col align-self="center" cols="4" class="py-0">
-              <v-avatar v-if="showBookInfo" height="120" width="88" tile>
+              <v-avatar v-if="showBookInfo" height="112" width="80" tile>
                 <v-img :src="bookInfo.coverUrl" style="border-radius:4px">
                   <template v-slot:placeholder>
                     <PuSkeleton height="120px" width="88px"></PuSkeleton>

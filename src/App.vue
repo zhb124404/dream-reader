@@ -87,6 +87,7 @@ export default {
     }
   },
   mounted() {
+    this.$store.commit('setTheme', { showNav: true }) // 还原可能缺失的底栏
     this.$vuetify.theme.dark = this.$store.state.theme.useDarktheme
   }
 }
