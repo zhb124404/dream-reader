@@ -37,7 +37,7 @@
         <span>搜索</span>
         <v-icon>mdi-cloud-search</v-icon>
       </v-btn>
-      <v-btn height="100%" value="bookshelf" to="/">
+      <v-btn height="100%" value="bookshelf" to="/bookshelf">
         <span>书架</span>
         <v-icon>mdi-book</v-icon>
       </v-btn>
@@ -50,7 +50,8 @@
     <v-main>
       <router-view></router-view>
       <!-- 全局消息条 -->
-      <v-snackbar v-model="showSnackbar" :color="$store.state.snackbar.type" :timeout="$store.state.snackbar.timeout" bottom>
+      <v-snackbar v-model="showSnackbar" :color="$store.state.snackbar.type"
+        :timeout="$store.state.snackbar.timeout" bottom>
         {{$store.state.snackbar.text}}
         <template v-slot:action="{ attrs }">
           <v-btn text v-bind="attrs" @click="showSnackbar = false">
@@ -85,6 +86,9 @@ export default {
         this.$store.commit('showMsg', { show: value })
       }
     }
+  },
+  methods: {
+
   },
   mounted() {
     this.$store.commit('setTheme', { showNav: true }) // 还原可能缺失的底栏

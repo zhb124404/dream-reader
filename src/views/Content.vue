@@ -1,5 +1,6 @@
 <template>
   <v-sheet height="100%">
+    <!-- 正文 -->
     <v-card :loading="loading" :class="readTheme" v-touch="{
       left: () => swipe('Left'),
       right: () => swipe('Right'),
@@ -8,12 +9,15 @@
     }" class="theme-read-base px-6">
       <v-row>
         <v-col cols="12">
-          <div v-if="!loading" id="tiltle-chapter" class="text-truncate mb-6 mx-auto">{{title}}</div>
+          <div v-if="!loading" id="tiltle-chapter" class="text-truncate mb-6 mx-auto">{{title}}
+          </div>
           <div class="mb-4" v-for="(p,index) in content" :key="'o-'+index">{{p}}</div>
         </v-col>
       </v-row>
     </v-card>
-    <v-speed-dial v-model="fab" bottom right direction="top" :open-on-hover="false" transition="slide-y-reverse-transition">
+    <!-- 菜单 -->
+    <v-speed-dial v-show="showMenu" v-click-outside="toggleMenuShow" v-model="fab" bottom right
+      direction="top" :open-on-hover="false" transition="slide-y-reverse-transition">
       <template v-slot:activator>
         <v-btn v-model="fab" color="blue darken-2" dark fab>
           <v-icon v-if="fab">mdi-close</v-icon>
@@ -23,10 +27,12 @@
       <v-btn @click="showCatalog = true" fab dark small color="green">
         <v-icon>mdi-format-list-bulleted</v-icon>
       </v-btn>
-      <v-btn @click="$store.commit('setTheme', { showNav: true });$router.push({name:'Home'})" fab dark small color="indigo">
+      <v-btn @click="$store.commit('setTheme', { showNav: true });$router.push({name:'Home'})" fab
+        dark small color="indigo">
         <v-icon>mdi-home</v-icon>
       </v-btn>
-      <v-btn @click="$store.commit('setTheme', { showNav: true });$router.back()" fab dark small color="red">
+      <v-btn @click="$store.commit('setTheme', { showNav: true });$router.back()" fab dark small
+        color="red">
         <v-icon>mdi-keyboard-backspace</v-icon>
       </v-btn>
     </v-speed-dial>
@@ -34,7 +40,9 @@
     <v-navigation-drawer v-model="showCatalog" width="80%" fixed temporary>
       <v-virtual-scroll :items="chapters" bench="10" item-height="48">
         <template v-slot="{ item:chapter,index}">
-          <v-list-item @click="showCatalog=false;selected=index;getChapter(chapter.chapterUrl,chapter.chapterName)" :key="'chapter'+index">
+          <v-list-item
+            @click="showCatalog=false;selected=index;getChapter(chapter.chapterUrl,chapter.chapterName)"
+            :key="'chapter'+index">
             <v-list-item-content>
               <v-list-item-title>{{chapter.chapterName}}</v-list-item-title>
             </v-list-item-content>
@@ -52,10 +60,11 @@ export default {
       loading: false,
       title: '',
       content: [],
-      fab: false,
+      fab: true,
       showCatalog: false,
       chapters: [],
-      selected: 0
+      selected: 0,
+      showMenu: false
     }
   },
   computed: {
@@ -67,6 +76,10 @@ export default {
     }
   },
   methods: {
+    toggleMenuShow() {
+      this.showMenu = !this.showMenu
+      this.fab = true
+    },
     async swipe(d) {
       if (d === 'Left') {
         if (this.selected < this.chapters.length - 1) {
@@ -85,6 +98,17 @@ export default {
           this.selected--
         } else {
           this.$store.commit('showMsg', { text: '已是第一章！', type: 'warning' })
+        }
+      } else if (d === 'End') {
+        console.log('hhh')
+
+        if (this.selected < this.chapters.length - 1) {
+          let id = this.chapters[this.selected + 1].chapterUrl
+          let name = this.chapters[this.selected + 1].chapterName
+          await this.getChapter(id, name)
+          this.selected++
+        } else {
+          this.$store.commit('showMsg', { text: '没有下一章啦！', type: 'warning' })
         }
       }
     },

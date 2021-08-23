@@ -67,7 +67,8 @@
                   </div>
                   <div class="text-subtitle-2 text--secondary text-truncate">
                     <PuSkeleton v-if="bookInfoLoading" width="200px"></PuSkeleton>
-                    <v-icon v-else size="20px">mdi-ticket-confirmation</v-icon>{{bookInfo.lastChapter}}
+                    <v-icon v-else size="20px">mdi-ticket-confirmation</v-icon>
+                    {{bookInfo.lastChapter}}
                   </div>
                   <div class="text-subtitle-2 text--secondary text-truncate">
                     <PuSkeleton v-if="bookInfoLoading" width="200px"></PuSkeleton>
@@ -88,11 +89,13 @@
             </v-card-text>
           </v-row>
           <v-card-actions>
-            <v-btn color="green darken-1" :disabled="bookInfoLoading" text @click="getContent(bookInfo.chaptersUrl)">
+            <v-btn color="green darken-1" :disabled="bookInfoLoading" text
+              @click="getContent(bookInfo.chaptersUrl)">
               开始阅读
             </v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="green darken-1" :disabled="bookInfoLoading" text @click="showBookInfo = false">
+            <v-btn color="green darken-1" :disabled="bookInfoLoading" text
+              @click="addToBookShelf(bookInfo)">
               加入书架
             </v-btn>
           </v-card-actions>
@@ -122,7 +125,7 @@ export default {
         let { code, books } = result.data
         if (code === '0000') {
           this.books = books
-          if( this.books.length===0){
+          if (this.books.length === 0) {
             this.$store.commit('showMsg', { text: '未搜索到相关小说！', type: 'info' })
           }
         } else {
@@ -165,6 +168,23 @@ export default {
         name: 'Content',
         query: { id }
       })
+    },
+    async addToBookShelf(book) {
+      this.showBookInfo = false
+      const token = this.$store.state.token
+      if (token) {
+        const userData = await this.$axios.post('/addBook', { token, book })
+        const { code, msg } = userData.data
+        if (code === '0000') {
+          this.$store.commit('showMsg', { text: msg, type: 'success' })
+        } else {
+          this.$store.commit('showMsg', { text: msg, type: 'error' })
+          this.$store.commit('setUserData', null)
+          this.$store.commit('setToken', null)
+        }
+      } else {
+        this.$store.commit('showMsg', { text: '请登录后再试', type: 'warning' })
+      }
     }
   },
   async mounted() {

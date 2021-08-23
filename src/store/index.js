@@ -10,10 +10,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    token: null,
+    userData: null,
     // 主题
     theme: {
       useDarktheme: false,
-      showNav:true
+      showNav: true
     },
     // 全局消息条
     snackbar: {
@@ -47,7 +49,9 @@ export default new Vuex.Store({
           ...config
         }
       }
-    }
+    },
+    setToken: (state, payload) => state.token = payload,
+    setUserData: (state, payload) => state.userData = payload
   },
   actions: {},
   plugins: [createPersistedState({

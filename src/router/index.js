@@ -38,6 +38,11 @@ const routes = [
     path: '/content',
     name: 'Content',
     component: () => import(/* webpackChunkName: "content" */ '../views/Content.vue')
+  },
+  {
+    path: '/bookshelf',
+    name: 'Bookshelf',
+    component: () => import(/* webpackChunkName: "content" */ '../views/Bookshelf.vue')
   }
 ]
 
