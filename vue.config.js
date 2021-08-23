@@ -7,7 +7,14 @@ module.exports = {
   publicPath: './',
   // eslint-编译时语法检查
   lintOnSave: false,
-
+  chainWebpack: config => {
+    config
+      .plugin('html')
+      .tap(args => [{
+        ...args[0],
+        title: 'Dream Reader'
+      }])
+  },
   devServer: {
     // 浏览器是否自动打开
     open: false,
