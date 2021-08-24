@@ -51,7 +51,7 @@
       <router-view></router-view>
       <!-- 全局消息条 -->
       <v-snackbar v-model="showSnackbar" :color="$store.state.snackbar.type"
-        :timeout="$store.state.snackbar.timeout" bottom>
+        :timeout="$store.state.snackbar.timeout" top>
         {{$store.state.snackbar.text}}
         <template v-slot:action="{ attrs }">
           <v-btn text v-bind="attrs" @click="showSnackbar = false">
